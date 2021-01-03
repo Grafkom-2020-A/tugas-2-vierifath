@@ -1,3 +1,9 @@
+# LINK YOUTUBE VIDEO : https://youtu.be/VABjG_uoaAg
+
+
+
+
+
 # Deskripsi Tugas
 ## Objektif
 Membuat aplikasi grafika berbasis web (HTML, CSS, JavaScript) untuk menampilkan sebuah **Objek Ganda** dan sebuah **Pencahayaan** dalam sebuah Canvas.
@@ -24,3 +30,6 @@ Ahad, 03 Januari 2021
 | Keteraturan Repo   | 10    |
 | Estetika Objek     | 10    |
 | Ketuntasan         | 80    |
+
+
+
