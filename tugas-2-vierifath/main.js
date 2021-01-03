@@ -177,12 +177,14 @@ var cubePoints14 = [
 
     var cubeColors = [
       [],
-    [0.5, 0, 0],    
-    [0.5, 0, 0],
-    [0.5, 0, 0],
-    [0.5, 0, 0],
-    [0.5, 0, 0],
-    [0.5, 0, 0],
+    [0.9, 0.9, 0],    
+    [0.9, 0.9, 0],    
+    [0.9, 0.9, 0],    
+    [0.9, 0.9, 0],    
+    [0.9, 0.9, 0],    
+    [0.9, 0.9, 0],    
+     
+
       []
     ];
 
@@ -257,11 +259,11 @@ var cubePoints14 = [
     var indices = [a, b, c, c, d, a];
     
     for (var i=0; i<indices.length; i++) {
-      var point = cube[indices[i]];  // [x, y, z]
+      var point = cube[indices[i]];  
       for (var j=0; j<point.length; j++) {
         vertices.push(point[j]);
       }
-      var color = cubeColors[a]; // [r, g, b]
+      var color = cubeColors[a];
       for (var j=0; j<color.length; j++) {
         vertices.push(color[j]);
       }
@@ -276,11 +278,11 @@ var cubePoints14 = [
     var indices = [a, b, c, c, d, a];
     
     for (var i=0; i<indices.length; i++) {
-      var point = cube[indices[i]];  // [x, y, z]
+      var point = cube[indices[i]];  
       for (var j=0; j<point.length; j++) {
         vertices.push(point[j]);
       }
-      var color = cubeColors[a]; // [r, g, b]
+      var color = cubeColors[a];
       for (var j=0; j<color.length; j++) {
         vertices.push(color[j]);
       }
@@ -297,11 +299,11 @@ var cubePoints14 = [
     var indices = [a, b, c, c, d, a];
     
     for (var i=0; i<indices.length; i++) {
-      var point = cube[indices[i]];  // [x, y, z]
+      var point = cube[indices[i]];  
       for (var j=0; j<point.length; j++) {
         vertices.push(point[j]);
       }
-      var color = cubeWhiteColors[a]; // [r, g, b]
+      var color = cubeWhiteColors[a];
       for (var j=0; j<color.length; j++) {
         vertices.push(color[j]);
       }
@@ -512,13 +514,42 @@ var cubePoints14 = [
   var uLightColor = gl.getUniformLocation(shaderProgram, 'u_LightColor');
   gl.uniform3fv(uLightColor, [1, 1, 1]);
   var uLightPosition = gl.getUniformLocation(shaderProgram, 'u_LightPosition');
+  //shininess
+  //var shininessVal = gl.getUniformLocation(shaderProgram, 'shininessVal');
+
+
 
   let lightPositionY = 0;
   var linearspeed = 0.1;
   var angularspeed = glMatrix.glMatrix.toRadian(1);
   function onKeyDown(event) {
   
-   
+    if (event.keyCode == 65) {
+      glMatrix.mat4.rotate(view, view, angularspeed, [0.0, -linearspeed, 0.0]);
+      } 
+      else if (event.keyCode == 68) {
+      glMatrix.mat4.rotate(view, view, angularspeed, [0.0, linearspeed, 0.0]);
+      } 
+      if (event.keyCode == 87) {
+  
+        for(let i = 0 ; i < 36 * 9; i++){
+          if(i%9 == 0){
+            vertices[4537 + i] += 0.01;
+          }
+         
+        }
+        
+        lightPositionY += 0.01;
+      } 
+      if (event.keyCode == 83) {
+        for(let i = 0 ; i < 36 * 9; i++){
+          if(i%9 == 0){
+            vertices[4537 + i] -= 0.01;
+          }
+          console.log("vertices lenght : " + vertices.length);
+        }
+        lightPositionY -= 0.01;
+      } 
   }
   document.addEventListener('keydown', onKeyDown);
 
@@ -532,7 +563,9 @@ var cubePoints14 = [
     var normalModel = glMatrix.mat3.create();
     glMatrix.mat3.normalFromMat4(normalModel, model);
     gl.uniformMatrix3fv(uNormalModel, false, normalModel);
-    gl.clearColor(0.74, 0.5, 0.6, 1.0);
+    // gl.clearColor(0.83, 0.5, 0.6, 1.0);
+
+    gl.clearColor(0, 0.15, 0, 1);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
