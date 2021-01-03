@@ -1,6 +1,7 @@
 # LINK YOUTUBE VIDEO : https://youtu.be/VABjG_uoaAg
 
 
+![https://gifs.com/gif/tugas-2-grafkom-OMN42B]
 
 
 
