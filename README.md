@@ -1,9 +1,7 @@
-# LINK YOUTUBE VIDEO : https://youtu.be/VABjG_uoaAg
+![https://j.gifs.com/OMN42B.gif]
 
 
-![https://gifs.com/gif/tugas-2-grafkom-OMN42B]
-
-
+### LINK YOUTUBE VIDEO : https://youtu.be/VABjG_uoaAg
 
 # Deskripsi Tugas
 ## Objektif
