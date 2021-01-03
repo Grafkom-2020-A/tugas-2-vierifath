@@ -1,4 +1,4 @@
-![Alt Text][https://j.gifs.com/OMN42B.gif]
+![Alt Text](https://j.gifs.com/OMN42B.gif)
 
 
 ### LINK YOUTUBE VIDEO : https://youtu.be/VABjG_uoaAg
