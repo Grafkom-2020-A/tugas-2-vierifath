@@ -1,435 +1,376 @@
 function main() {
   var canvas = document.getElementById("myCanvas");
   var gl = canvas.getContext("webgl");
+  
+  var verticesLeft = [];
+  var verticesRight = [];
+  var verticesCenter = [];
 
-  canvas.width  = innerWidth;
-  canvas.height = innerHeight;
+  var cubePoints1 = [
+    [0.4183357094191, 0.3697760050126, 0.1],   
+    [0.1850198880861, 0.3697760050126, 0.1],   
+    [0.1850198880861, 0.2751340866928, 0.1],
+    [0.4183357094191, 0.2751340866928, 0.1],  
+    [0.4183357094191, 0.3697760050126, -0.1], 
+    [0.1850198880861, 0.3697760050126, -0.1],
+    [0.1850198880861, 0.2751340866928, -0.1],   
+    [0.4183357094191, 0.2751340866928, -0.1]
+               
+  ];
 
-    var vertices = [];
-
-
-    //OBJEK SEBELAH KANAN
-    var cubePoints1 = [
-      [0.4183357094191, 0.3697760050126, 0.1],   
-      [0.1850198880861, 0.3697760050126, 0.1],   
-      [0.1850198880861, 0.2751340866928, 0.1],
-      [0.4183357094191, 0.2751340866928, 0.1],  
-      [0.4183357094191, 0.3697760050126, -0.1], 
-      [0.1850198880861, 0.3697760050126, -0.1],
-      [0.1850198880861, 0.2751340866928, -0.1],   
-      [0.4183357094191, 0.2751340866928, -0.1]
-                 
-    ];
-
-    var cubePoints2 = [
-      [0.3724243107448, 0.2751340866928, 0.1],   
-      [0.2298573359142, 0.2751340866928, 0.1],   
-      [0.2298573359142, -0.2613043609749, 0.1],   
-      [0.3724243107448, -0.2274749093202, 0.1],   
-      [0.3724243107448,0.2751340866928, -0.1],   
-      [0.2298573359142,0.2751340866928, -0.1],   
-      [0.2298573359142,-0.2613043609749, -0.1],   
-      [0.3724243107448,-0.2274749093202, -0.1] 
-    ];
+  var cubePoints2 = [
+    [0.3724243107448, 0.2751340866928, 0.1],   
+    [0.2298573359142, 0.2751340866928, 0.1],   
+    [0.2298573359142, -0.2613043609749, 0.1],   
+    [0.3724243107448, -0.2274749093202, 0.1],   
+    [0.3724243107448,0.2751340866928, -0.1],   
+    [0.2298573359142,0.2751340866928, -0.1],   
+    [0.2298573359142,-0.2613043609749, -0.1],   
+    [0.3724243107448,-0.2274749093202, -0.1] 
+  ];
+  
+    var cubePoints3 = [
+      [0.3724243107448,-0.2274749093202,0.1],   
+      [0.4159193200152,-0.2733863079945,0.1],   
+      [0.3482604167058,-0.3748746629586,0.1],   
+      [0.2298573359142,-0.2613043609749,0.1],
+      [0.3724243107448,-0.2274749093202,-0.1],   
+      [0.4159193200152,-0.2733863079945,-0.1],   
+      [0.3482604167058,-0.3748746629586,-0.1],   
+      [0.2298573359142,-0.2613043609749,-0.1]    
     
-      var cubePoints3 = [
-        [0.3724243107448,-0.2274749093202,0.1],   
-        [0.4159193200152,-0.2733863079945,0.1],   
-        [0.3482604167058,-0.3748746629586,0.1],   
-        [0.2298573359142,-0.2613043609749,0.1],
-        [0.3724243107448,-0.2274749093202,-0.1],   
-        [0.4159193200152,-0.2733863079945,-0.1],   
-        [0.3482604167058,-0.3748746629586,-0.1],   
-        [0.2298573359142,-0.2613043609749,-0.1]    
-      
-      ];
-
-      var cubePoints4 = [
-        [0.4159193200152,-0.2733863079945,0.1],   
-        [0.580233799481,-0.2733863079945,0.1],   
-        [0.6623910392139,-0.3748746629586,0.1],   
-        [0.3482604167058,-0.3748746629586,0.1],   
-        [0.4159193200152,-0.2733863079945,-0.1],   
-        [0.580233799481,-0.2733863079945,-0.1],   
-        [0.6623910392139,-0.3748746629586,-0.1],   
-        [0.3482604167058,-0.3748746629586,-0.1]      
     ];
 
-    var cubePoints5 = [
+    var cubePoints4 = [
+      [0.4159193200152,-0.2733863079945,0.1],   
       [0.580233799481,-0.2733863079945,0.1],   
-      [0.6309779769631,-0.2274749093202,0.1],   
-      [0.766295783582,-0.2613043609749,0.1],   
       [0.6623910392139,-0.3748746629586,0.1],   
+      [0.3482604167058,-0.3748746629586,0.1],   
+      [0.4159193200152,-0.2733863079945,-0.1],   
       [0.580233799481,-0.2733863079945,-0.1],   
-      [0.6309779769631,-0.2274749093202,-0.1],   
-      [0.766295783582,-0.2613043609749,-0.1],   
-      [0.6623910392139,-0.3748746629586,-0.1]         
+      [0.6623910392139,-0.3748746629586,-0.1],   
+      [0.3482604167058,-0.3748746629586,-0.1]      
   ];
 
-      var cubePoints6 = [
-      [0.766295783582,0.2751340866928,0.1],  
-      [0.6309779769631,0.2751340866928,0.1],
-      [0.6309779769631,-0.2274749093202,0.1],   
-      [0.766295783582,-0.2613043609749,0.1],   
-      [0.766295783582,0.2751340866928,-0.1], 
-      [0.6309779769631,0.2751340866928,-0.1],  
-      [0.6309779769631,-0.2274749093202,-0.1],   
-      [0.766295783582,-0.2613043609749,-0.1]
-      
-  ];
-
-
-  var cubePoints7 = [
-    [0.817039961064,0.3697760050126,0.1],  
-    [0.5826501888849,0.3697760050126,0.1],         
-    [0.5826501888849,0.2751340866928,0.1],   
-    [0.817039961064,0.2751340866928,0.1],  
-    [0.817039961064,0.3697760050126,-0.1], 
-    [0.5826501888849,0.3697760050126,-0.1],         
-    [0.5826501888849,0.2751340866928,-0.1],
-    [0.817039961064,0.2751340866928,-0.1]           
+  var cubePoints5 = [
+    [0.580233799481,-0.2733863079945,0.1],   
+    [0.6309779769631,-0.2274749093202,0.1],   
+    [0.766295783582,-0.2613043609749,0.1],   
+    [0.6623910392139,-0.3748746629586,0.1],   
+    [0.580233799481,-0.2733863079945,-0.1],   
+    [0.6309779769631,-0.2274749093202,-0.1],   
+    [0.766295783582,-0.2613043609749,-0.1],   
+    [0.6623910392139,-0.3748746629586,-0.1]         
 ];
 
-//OBJEK SEBELAH KIRI
+    var cubePoints6 = [
+    [0.766295783582,0.2751340866928,0.1],  
+    [0.6309779769631,0.2751340866928,0.1],
+    [0.6309779769631,-0.2274749093202,0.1],   
+    [0.766295783582,-0.2613043609749,0.1],   
+    [0.766295783582,0.2751340866928,-0.1], 
+    [0.6309779769631,0.2751340866928,-0.1],  
+    [0.6309779769631,-0.2274749093202,-0.1],   
+    [0.766295783582,-0.2613043609749,-0.1]
+    
+];
+
+
+var cubePoints7 = [
+  [0.817039961064,0.3697760050126,0.1],  
+  [0.5826501888849,0.3697760050126,0.1],         
+  [0.5826501888849,0.2751340866928,0.1],   
+  [0.817039961064,0.2751340866928,0.1],  
+  [0.817039961064,0.3697760050126,-0.1], 
+  [0.5826501888849,0.3697760050126,-0.1],         
+  [0.5826501888849,0.2751340866928,-0.1],
+  [0.817039961064,0.2751340866928,-0.1]           
+];
 
 var cubePoints8 = [
-  [-0.4183357094191, 0.3697760050126, 0.1],   
-  [-0.1850198880861, 0.3697760050126, 0.1],   
-  [-0.1850198880861, 0.2751340866928, 0.1],
-  [-0.4183357094191, 0.2751340866928, 0.1],  
-  [-0.4183357094191, 0.3697760050126, -0.1], 
-  [-0.1850198880861, 0.3697760050126, -0.1],
-  [-0.1850198880861, 0.2751340866928, -0.1],   
-  [-0.4183357094191, 0.2751340866928, -0.1]
-             
+[-0.4183357094191, 0.3697760050126, 0.1],   
+[-0.1850198880861, 0.3697760050126, 0.1],   
+[-0.1850198880861, 0.2751340866928, 0.1],
+[-0.4183357094191, 0.2751340866928, 0.1],  
+[-0.4183357094191, 0.3697760050126, -0.1], 
+[-0.1850198880861, 0.3697760050126, -0.1],
+[-0.1850198880861, 0.2751340866928, -0.1],   
+[-0.4183357094191, 0.2751340866928, -0.1]
+           
 ];
 
 
 var cubePoints9 = [
-  [-0.3724243107448, 0.2751340866928, 0.1],   
-  [-0.2298573359142, 0.2751340866928, 0.1],   
-  [-0.2298573359142, -0.2613043609749, 0.1],   
-  [-0.3724243107448, -0.2274749093202, 0.1],   
-  [-0.3724243107448,0.2751340866928, -0.1],   
-  [-0.2298573359142,0.2751340866928, -0.1],   
-  [-0.2298573359142,-0.2613043609749,-0.1],   
-  [-0.3724243107448,-0.2274749093202,-0.1] 
+[-0.3724243107448, 0.2751340866928, 0.1],   
+[-0.2298573359142, 0.2751340866928, 0.1],   
+[-0.2298573359142, -0.2613043609749, 0.1],   
+[-0.3724243107448, -0.2274749093202, 0.1],   
+[-0.3724243107448,0.2751340866928, -0.1],   
+[-0.2298573359142,0.2751340866928, -0.1],   
+[-0.2298573359142,-0.2613043609749,-0.1],   
+[-0.3724243107448,-0.2274749093202,-0.1] 
 ];
 
 var cubePoints10 = [
-  [-0.3724243107448,-0.2274749093202,0.1],   
-  [-0.4159193200152,-0.2733863079945,0.1],   
-  [-0.3482604167058,-0.3748746629586,0.1],   
-  [-0.2298573359142,-0.2613043609749,0.1],
-  [-0.3724243107448,-0.2274749093202,-0.1],   
-  [-0.4159193200152,-0.2733863079945,-0.1],   
-  [-0.3482604167058,-0.3748746629586,-0.1],   
-  [-0.2298573359142,-0.2613043609749,-0.1]    
+[-0.3724243107448,-0.2274749093202,0.1],   
+[-0.4159193200152,-0.2733863079945,0.1],   
+[-0.3482604167058,-0.3748746629586,0.1],   
+[-0.2298573359142,-0.2613043609749,0.1],
+[-0.3724243107448,-0.2274749093202,-0.1],   
+[-0.4159193200152,-0.2733863079945,-0.1],   
+[-0.3482604167058,-0.3748746629586,-0.1],   
+[-0.2298573359142,-0.2613043609749,-0.1]    
 
 ];
 
 
 
-  var cubePoints11 = [
-    [-0.4159193200152,-0.2733863079945,0.1],  
-    [-0.580233799481,-0.2733863079945,0.1],  
-    [-0.6623910392139,-0.3748746629586,0.1],   
-    [-0.3482604167058,-0.3748746629586,0.1],   
-    [-0.4159193200152,-0.2733863079945,-0.1],   
-    [-0.580233799481,-0.2733863079945, -0.1],   
-    [-0.6623910392139,-0.3748746629586,-0.1],  
-    [-0.3482604167058,-0.3748746629586,-0.1]           
+var cubePoints11 = [
+  [-0.4159193200152,-0.2733863079945,0.1],  
+  [-0.580233799481,-0.2733863079945,0.1],  
+  [-0.6623910392139,-0.3748746629586,0.1],   
+  [-0.3482604167058,-0.3748746629586,0.1],   
+  [-0.4159193200152,-0.2733863079945,-0.1],   
+  [-0.580233799481,-0.2733863079945, -0.1],   
+  [-0.6623910392139,-0.3748746629586,-0.1],  
+  [-0.3482604167058,-0.3748746629586,-0.1]           
 ];
 
 var cubePoints12 = [
-  [-0.580233799481,-0.2733863079945,0.1],   
-  [-0.6309779769631,-0.2274749093202,0.1],   
-  [-0.766295783582,-0.2613043609749,0.1],   
-  [-0.6623910392139,-0.3748746629586,0.1],  
-  [-0.580233799481,-0.2733863079945, -0.1],   
-  [-0.6309779769631,-0.2274749093202,-0.1], 
-  [-0.766295783582,-0.2613043609749, -0.1],   
-  [-0.6623910392139,-0.3748746629586,-0.1]       
+[-0.580233799481,-0.2733863079945,0.1],   
+[-0.6309779769631,-0.2274749093202,0.1],   
+[-0.766295783582,-0.2613043609749,0.1],   
+[-0.6623910392139,-0.3748746629586,0.1],  
+[-0.580233799481,-0.2733863079945, -0.1],   
+[-0.6309779769631,-0.2274749093202,-0.1], 
+[-0.766295783582,-0.2613043609749, -0.1],   
+[-0.6623910392139,-0.3748746629586,-0.1]       
 ];
 
-  var cubePoints13 = [
-    [-0.766295783582,0.2751340866928,0.1],  
-    [-0.6309779769631,0.2751340866928,0.1],
-    [-0.6309779769631,-0.2274749093202,0.1],   
-    [-0.766295783582,-0.2613043609749,0.1],   
-    [-0.766295783582,0.2751340866928,-0.1], 
-    [-0.6309779769631,0.2751340866928,-0.1],  
-    [-0.6309779769631,-0.2274749093202,-0.1],   
-    [-0.766295783582,-0.2613043609749,-0.1]          
+var cubePoints13 = [
+  [-0.766295783582,0.2751340866928,0.1],  
+  [-0.6309779769631,0.2751340866928,0.1],
+  [-0.6309779769631,-0.2274749093202,0.1],   
+  [-0.766295783582,-0.2613043609749,0.1],   
+  [-0.766295783582,0.2751340866928,-0.1], 
+  [-0.6309779769631,0.2751340866928,-0.1],  
+  [-0.6309779769631,-0.2274749093202,-0.1],   
+  [-0.766295783582,-0.2613043609749,-0.1]          
 ];
 
 
 var cubePoints14 = [
-  [-0.817039961064,0.3697760050126,0.1],  
-  [-0.5826501888849,0.3697760050126,0.1],         
-  [-0.5826501888849,0.2751340866928,0.1],   
-  [-0.817039961064,0.2751340866928,0.1],  
-  [-0.817039961064,0.3697760050126,-0.1], 
-  [-0.5826501888849,0.3697760050126,-0.1],         
-  [-0.5826501888849,0.2751340866928,-0.1],
-  [-0.817039961064,0.2751340866928,-0.1]           
+[-0.817039961064,0.3697760050126,0.1],  
+[-0.5826501888849,0.3697760050126,0.1],         
+[-0.5826501888849,0.2751340866928,0.1],   
+[-0.817039961064,0.2751340866928,0.1],  
+[-0.817039961064,0.3697760050126,-0.1], 
+[-0.5826501888849,0.3697760050126,-0.1],         
+[-0.5826501888849,0.2751340866928,-0.1],
+[-0.817039961064,0.2751340866928,-0.1]           
 ];
 
-    var cubeColors = [
-      [],
+
+  var cubeColors = [
+    [],
     [0.9, 0.9, 0],    
     [0.9, 0.9, 0],    
     [0.9, 0.9, 0],    
     [0.9, 0.9, 0],    
     [0.9, 0.9, 0],    
     [0.9, 0.9, 0],    
-     
+    []
+  ];
 
-      []
-    ];
+  var cubeWhite = [
+    [-0.025, 0.025, 0.025],
+    [-0.025, -0.025, 0.025],
+    [0.025, -0.025, 0.025],
+    [0.025, 0.025, 0.025],
+    [-0.025, 0.025, -0.025],
+    [-0.025, -0.025, -0.025],
+    [0.025, -0.025, -0.025],
+    [0.025, 0.025, -0.025],
+  ];
 
-    //Kubus Cahaya
+  var cubeWhiteColors = [
+    [],
+    [1.0, 1.0, 1.0],   
+    [1.0, 1.0, 1.0],   
+    [1.0, 1.0, 1.0],   
+    [1.0, 1.0, 1.0],   
+    [1.0, 1.0, 1.0],   
+    [1.0, 1.0, 1.0],   
 
-    var cubeWhite = [
-      [-0.025,  0.025,  0.025],   
-      [-0.025, -0.025,  0.025],   
-      [ 0.025, -0.025,  0.025],   
-      [ 0.025,  0.025,  0.025],   
-      [-0.025,  0.025, -0.025],   
-      [-0.025, -0.025, -0.025],   
-      [ 0.025, -0.025, -0.025],   
-      [ 0.025,  0.025, -0.025],   
-    ];
-  
-    var cubeWhiteColors = [
-      [],
-      [1.0, 1.0, 1.0],    
-      [1.0, 1.0, 1.0],    
-      [1.0, 1.0, 1.0],    
-      [1.0, 1.0, 1.0],    
-      [1.0, 1.0, 1.0],    
-      [1.0, 1.0, 1.0],    
-  
-      []
-    ];
+    []
+  ];
 
-    var cubeNormalsRight = [
-      [],
-      [0.0, 0.0, -1.0],    
-      [0.0, -1.0, 0.0],    
-      [1.0, 0.0, 0.0],    
-      [0.0, 1.0, 0.0],   
-      [0.0, 0.0, 1.0],   
-      [-1.0, 0.0, 0.0],   
-      
-      []
-    ];
+  var cubeNormalsRight = [
+    [],
+    [0.0, 0.0, -1.0],    
+    [0.0, -1.0, 0.0],    
+    [1.0, 0.0, 0.0],    
+    [0.0, 1.0, 0.0],   
+    [0.0, 0.0, 1.0],   
+    [-1.0, 0.0, 0.0],   
 
-    var cubeNormalsLeft = [
-      [],
-      [0.0, 0.0, -1.0],    
-      [0.0, -1.0, 0.0],    
-      [-1.0, 0.0, 0.0],    
-      [0.0, 1.0, 0.0],   
-      [0.0, 0.0, 1.0],   
-      [1.0, 0.0, 0.0],   
-      
-      []
-    ];
+    []
+  ];
 
+  var cubeNormalsLeft = [
+    [],
+    [0.0, 0.0, -1.0],    
+    [0.0, -1.0, 0.0],    
+    [-1.0, 0.0, 0.0],    
+    [0.0, 1.0, 0.0],   
+    [0.0, 0.0, 1.0],   
+    [1.0, 0.0, 0.0],   
 
+    []
+  ];
 
+ 
 
-    var cubeNormals2 = [
-      [],
-      [0.0, 0.0, -1.0],   
-      [-1.0, 0.0, 0.0],   
-      [0.0, -1.0, 0.0],    
-      [1.0, 0.0, 0.0],    
-      [0.0, 0.0, 1.0],    
-      [0.0, 1.0, 0.0],    
-      []
-    ];
+  var cubeNormals2 = [
+    [],
+    [0.0, 0.0, -1.0],   
+    [-1.0, 0.0, 0.0],   
+    [0.0, -1.0, 0.0],    
+    [1.0, 0.0, 0.0],    
+    [0.0, 0.0, 1.0],    
+    [0.0, 1.0, 0.0],    
+    []
+  ];
 
 
-    
-  
-
-  function quadr(a, b, c, d, cube) {
+  function quad(cube , cubeColor, cubeNormal, a, b, c, d, vertices) {
     var indices = [a, b, c, c, d, a];
-    
-    for (var i=0; i<indices.length; i++) {
-      var point = cube[indices[i]];  
-      for (var j=0; j<point.length; j++) {
+
+    for (var i = 0; i < indices.length; i++) {
+      var point = cube[indices[i]];
+      for (var j = 0; j < point.length; j++) {
         vertices.push(point[j]);
       }
-      var color = cubeColors[a];
-      for (var j=0; j<color.length; j++) {
+      var color = cubeColor[a];
+      for (var j = 0; j < color.length; j++) {
         vertices.push(color[j]);
       }
-      var normal = cubeNormalsRight[a];
-      for (var j=0; j<normal.length; j++) {
+      var normal = cubeNormal[a];
+      for (var j = 0; j < normal.length; j++) {
         vertices.push(normal[j]);
       }
     }
   }
 
-  function quadl(a, b, c, d, cube) {
-    var indices = [a, b, c, c, d, a];
-    
-    for (var i=0; i<indices.length; i++) {
-      var point = cube[indices[i]];  
-      for (var j=0; j<point.length; j++) {
-        vertices.push(point[j]);
-      }
-      var color = cubeColors[a];
-      for (var j=0; j<color.length; j++) {
-        vertices.push(color[j]);
-      }
-      var normal = cubeNormalsLeft[a];
-      for (var j=0; j<normal.length; j++) {
-        vertices.push(normal[j]);
-      }
-    }
-  }
+
+  quad(cubePoints1, cubeColors, cubeNormalsRight, 1, 2, 3, 0, verticesRight);
+  quad(cubePoints1, cubeColors, cubeNormalsRight, 2, 6, 7, 3, verticesRight);
+  quad(cubePoints1, cubeColors, cubeNormalsRight, 3, 7, 4, 0, verticesRight);
+  quad(cubePoints1, cubeColors, cubeNormalsRight, 4, 5, 1, 0, verticesRight);
+  quad(cubePoints1, cubeColors, cubeNormalsRight, 5, 4, 7, 6, verticesRight);
+  quad(cubePoints1, cubeColors, cubeNormalsRight, 6, 2, 1, 5, verticesRight);
+
+  quad(cubePoints2, cubeColors, cubeNormalsRight, 1, 2, 3, 0, verticesRight);
+  quad(cubePoints2, cubeColors, cubeNormalsRight, 2, 6, 7, 3, verticesRight);
+  quad(cubePoints2, cubeColors, cubeNormalsRight, 3, 7, 4, 0, verticesRight);
+  quad(cubePoints2, cubeColors, cubeNormalsRight, 4, 5, 1, 0, verticesRight);
+  quad(cubePoints2, cubeColors, cubeNormalsRight, 5, 4, 7, 6, verticesRight);
+  quad(cubePoints2, cubeColors, cubeNormalsRight, 6, 2, 1, 5, verticesRight);
+
+  quad(cubePoints3, cubeColors, cubeNormalsRight, 1, 2, 3, 0, verticesRight); 
+  quad(cubePoints3, cubeColors, cubeNormalsRight, 2, 6, 7, 3, verticesRight); 
+  quad(cubePoints3, cubeColors, cubeNormalsRight, 3, 7, 4, 0, verticesRight);
+  quad(cubePoints3, cubeColors, cubeNormalsRight, 4, 5, 1, 0, verticesRight); 
+  quad(cubePoints3, cubeColors, cubeNormalsRight, 5, 4, 7, 6, verticesRight); 
+  quad(cubePoints3, cubeColors, cubeNormalsRight, 6, 2, 1, 5, verticesRight);
+
+  quad(cubePoints4, cubeColors, cubeNormalsRight, 1, 2, 3, 0, verticesRight); 
+  quad(cubePoints4, cubeColors, cubeNormalsRight, 2, 6, 7, 3, verticesRight); 
+  quad(cubePoints4, cubeColors, cubeNormalsRight, 3, 7, 4, 0, verticesRight);
+  quad(cubePoints4, cubeColors, cubeNormalsRight, 4, 5, 1, 0, verticesRight); 
+  quad(cubePoints4, cubeColors, cubeNormalsRight, 5, 4, 7, 6, verticesRight); 
+  quad(cubePoints4, cubeColors, cubeNormalsRight, 6, 2, 1, 5, verticesRight);
+
+  quad(cubePoints5, cubeColors, cubeNormalsRight, 1, 2, 3, 0, verticesRight); 
+  quad(cubePoints5, cubeColors, cubeNormalsRight, 2, 6, 7, 3, verticesRight); 
+  quad(cubePoints5, cubeColors, cubeNormalsRight, 3, 7, 4, 0, verticesRight);
+  quad(cubePoints5, cubeColors, cubeNormalsRight, 4, 5, 1, 0, verticesRight); 
+  quad(cubePoints5, cubeColors, cubeNormalsRight, 5, 4, 7, 6, verticesRight); 
+  quad(cubePoints5, cubeColors, cubeNormalsRight, 6, 2, 1, 5, verticesRight);
+
+  quad(cubePoints6, cubeColors, cubeNormalsRight, 1, 2, 3, 0, verticesRight); 
+  quad(cubePoints6, cubeColors, cubeNormalsRight, 2, 6, 7, 3, verticesRight); 
+  quad(cubePoints6, cubeColors, cubeNormalsRight, 3, 7, 4, 0, verticesRight);
+  quad(cubePoints6, cubeColors, cubeNormalsRight, 4, 5, 1, 0, verticesRight); 
+  quad(cubePoints6, cubeColors, cubeNormalsRight, 5, 4, 7, 6, verticesRight); 
+  quad(cubePoints6, cubeColors, cubeNormalsRight, 6, 2, 1, 5, verticesRight);
+
+  quad(cubePoints7, cubeColors, cubeNormalsRight, 1, 2, 3, 0, verticesRight); 
+  quad(cubePoints7, cubeColors, cubeNormalsRight, 2, 6, 7, 3, verticesRight); 
+  quad(cubePoints7, cubeColors, cubeNormalsRight, 3, 7, 4, 0, verticesRight);
+  quad(cubePoints7, cubeColors, cubeNormalsRight, 4, 5, 1, 0, verticesRight); 
+  quad(cubePoints7, cubeColors, cubeNormalsRight, 5, 4, 7, 6, verticesRight); 
+  quad(cubePoints7, cubeColors, cubeNormalsRight, 6, 2, 1, 5, verticesRight);
+
+  quad(cubePoints8, cubeColors, cubeNormalsLeft, 1, 2, 3, 0, verticesLeft); 
+  quad(cubePoints8, cubeColors, cubeNormalsLeft, 2, 6, 7, 3, verticesLeft); 
+  quad(cubePoints8, cubeColors, cubeNormalsLeft, 3, 7, 4, 0, verticesLeft); 
+  quad(cubePoints8, cubeColors, cubeNormalsLeft, 4, 5, 1, 0, verticesLeft); 
+  quad(cubePoints8, cubeColors, cubeNormalsLeft, 5, 4, 7, 6, verticesLeft); 
+  quad(cubePoints8, cubeColors, cubeNormalsLeft, 6, 2, 1, 5, verticesLeft); 
+
+
+  quad(cubePoints9, cubeColors, cubeNormalsLeft, 1, 2, 3, 0, verticesLeft); 
+  quad(cubePoints9, cubeColors, cubeNormalsLeft, 2, 6, 7, 3, verticesLeft); 
+  quad(cubePoints9, cubeColors, cubeNormalsLeft, 3, 7, 4, 0, verticesLeft); 
+  quad(cubePoints9, cubeColors, cubeNormalsLeft, 4, 5, 1, 0, verticesLeft); 
+  quad(cubePoints9, cubeColors, cubeNormalsLeft, 5, 4, 7, 6, verticesLeft); 
+  quad(cubePoints9, cubeColors, cubeNormalsLeft, 6, 2, 1, 5, verticesLeft);
+
+  quad(cubePoints10, cubeColors, cubeNormalsLeft, 1, 2, 3, 0, verticesLeft); 
+  quad(cubePoints10, cubeColors, cubeNormalsLeft, 2, 6, 7, 3, verticesLeft); 
+  quad(cubePoints10, cubeColors, cubeNormalsLeft, 3, 7, 4, 0, verticesLeft); 
+  quad(cubePoints10, cubeColors, cubeNormalsLeft, 4, 5, 1, 0, verticesLeft); 
+  quad(cubePoints10, cubeColors, cubeNormalsLeft, 5, 4, 7, 6, verticesLeft); 
+  quad(cubePoints10, cubeColors, cubeNormalsLeft, 6, 2, 1, 5, verticesLeft);
+
+  quad(cubePoints11, cubeColors, cubeNormalsLeft, 1, 2, 3, 0, verticesLeft); 
+  quad(cubePoints11, cubeColors, cubeNormalsLeft, 2, 6, 7, 3, verticesLeft); 
+  quad(cubePoints11, cubeColors, cubeNormalsLeft, 3, 7, 4, 0, verticesLeft); 
+  quad(cubePoints11, cubeColors, cubeNormalsLeft, 4, 5, 1, 0, verticesLeft); 
+  quad(cubePoints11, cubeColors, cubeNormalsLeft, 5, 4, 7, 6, verticesLeft); 
+  quad(cubePoints11, cubeColors, cubeNormalsLeft, 6, 2, 1, 5, verticesLeft);
+
+  quad(cubePoints12, cubeColors, cubeNormalsLeft, 1, 2, 3, 0, verticesLeft); 
+  quad(cubePoints12, cubeColors, cubeNormalsLeft, 2, 6, 7, 3, verticesLeft); 
+  quad(cubePoints12, cubeColors, cubeNormalsLeft, 3, 7, 4, 0, verticesLeft); 
+  quad(cubePoints12, cubeColors, cubeNormalsLeft, 4, 5, 1, 0, verticesLeft); 
+  quad(cubePoints12, cubeColors, cubeNormalsLeft, 5, 4, 7, 6, verticesLeft); 
+  quad(cubePoints12, cubeColors, cubeNormalsLeft, 6, 2, 1, 5, verticesLeft);
+
+  quad(cubePoints13, cubeColors, cubeNormalsLeft, 1, 2, 3, 0, verticesLeft); 
+  quad(cubePoints13, cubeColors, cubeNormalsLeft, 2, 6, 7, 3, verticesLeft); 
+  quad(cubePoints13, cubeColors, cubeNormalsLeft, 3, 7, 4, 0, verticesLeft); 
+  quad(cubePoints13, cubeColors, cubeNormalsLeft, 4, 5, 1, 0, verticesLeft); 
+  quad(cubePoints13, cubeColors, cubeNormalsLeft, 5, 4, 7, 6, verticesLeft); 
+  quad(cubePoints13, cubeColors, cubeNormalsLeft, 6, 2, 1, 5, verticesLeft);
+
+  quad(cubePoints14, cubeColors, cubeNormalsLeft, 1, 2, 3, 0, verticesLeft); 
+  quad(cubePoints14, cubeColors, cubeNormalsLeft, 2, 6, 7, 3, verticesLeft); 
+  quad(cubePoints14, cubeColors, cubeNormalsLeft, 3, 7, 4, 0, verticesLeft); 
+  quad(cubePoints14, cubeColors, cubeNormalsLeft, 4, 5, 1, 0, verticesLeft); 
+  quad(cubePoints14, cubeColors, cubeNormalsLeft, 5, 4, 7, 6, verticesLeft); 
+  quad(cubePoints14, cubeColors, cubeNormalsLeft, 6, 2, 1, 5, verticesLeft);
+
+  quad(cubeWhite, cubeWhiteColors, cubeNormals2, 1, 2, 3, 0, verticesCenter); 
+  quad(cubeWhite, cubeWhiteColors, cubeNormals2, 2, 6, 7, 3, verticesCenter); 
+  quad(cubeWhite, cubeWhiteColors, cubeNormals2, 3, 7, 4, 0, verticesCenter);
+  quad(cubeWhite, cubeWhiteColors, cubeNormals2, 4, 5, 1, 0, verticesCenter); 
+  quad(cubeWhite, cubeWhiteColors, cubeNormals2, 5, 4, 7, 6, verticesCenter); 
+  quad(cubeWhite, cubeWhiteColors, cubeNormals2, 6, 2, 1, 5, verticesCenter);
+
 
   
-  // Kubus Cahaya
-  function quad50(a, b, c, d, cube) {
-    var indices = [a, b, c, c, d, a];
-    
-    for (var i=0; i<indices.length; i++) {
-      var point = cube[indices[i]];  
-      for (var j=0; j<point.length; j++) {
-        vertices.push(point[j]);
-      }
-      var color = cubeWhiteColors[a];
-      for (var j=0; j<color.length; j++) {
-        vertices.push(color[j]);
-      }
-      var normal = cubeNormals2[a];
-      for (var j=0; j<normal.length; j++) {
-        vertices.push(normal[j]);
-      }
-    }
-  }
-  
-
-  quadr(1, 2, 3, 0, cubePoints1); 
-  quadr(2, 6, 7, 3, cubePoints1);
-  quadr(3, 7, 4, 0, cubePoints1);
-  quadr(4, 5, 1, 0, cubePoints1);
-  quadr(5, 4, 7, 6, cubePoints1);
-  quadr(6, 2, 1, 5, cubePoints1);
-
-  quadr(1, 2, 3, 0, cubePoints2);
-  quadr(2, 6, 7, 3, cubePoints2);
-  quadr(3, 7, 4, 0, cubePoints2);
-  quadr(4, 5, 1, 0, cubePoints2);
-  quadr(5, 4, 7, 6, cubePoints2);
-  quadr(6, 2, 1, 5, cubePoints2);
-
-  quadr(1, 2, 3, 0, cubePoints3); 
-  quadr(2, 6, 7, 3, cubePoints3); 
-  quadr(3, 7, 4, 0, cubePoints3); 
-  quadr(4, 5, 1, 0, cubePoints3); 
-  quadr(5, 4, 7, 6, cubePoints3); 
-  quadr(6, 2, 1, 5, cubePoints3);
-
-  quadr(1, 2, 3, 0, cubePoints4); 
-  quadr(2, 6, 7, 3, cubePoints4); 
-  quadr(3, 7, 4, 0, cubePoints4); 
-  quadr(4, 5, 1, 0, cubePoints4); 
-  quadr(5, 4, 7, 6, cubePoints4); 
-  quadr(6, 2, 1, 5, cubePoints4);
-
-  quadr(1, 2, 3, 0, cubePoints5); 
-  quadr(2, 6, 7, 3, cubePoints5); 
-  quadr(3, 7, 4, 0, cubePoints5); 
-  quadr(4, 5, 1, 0, cubePoints5); 
-  quadr(5, 4, 7, 6, cubePoints5); 
-  quadr(6, 2, 1, 5, cubePoints5);
-
-  quadr(1, 2, 3, 0, cubePoints6); 
-  quadr(2, 6, 7, 3, cubePoints6); 
-  quadr(3, 7, 4, 0, cubePoints6); 
-  quadr(4, 5, 1, 0, cubePoints6); 
-  quadr(5, 4, 7, 6, cubePoints6); 
-  quadr(6, 2, 1, 5, cubePoints6);
-
-
-  quadr(1, 2, 3, 0, cubePoints7); 
-  quadr(2, 6, 7, 3, cubePoints7); 
-  quadr(3, 7, 4, 0, cubePoints7); 
-  quadr(4, 5, 1, 0, cubePoints7); 
-  quadr(5, 4, 7, 6, cubePoints7); 
-  quadr(6, 2, 1, 5, cubePoints7);
-
-  quadl(1, 2, 3, 0, cubePoints8); 
-  quadl(2, 6, 7, 3, cubePoints8); 
-  quadl(3, 7, 4, 0, cubePoints8); 
-  quadl(4, 5, 1, 0, cubePoints8); 
-  quadl(5, 4, 7, 6, cubePoints8); 
-  quadl(6, 2, 1, 5, cubePoints8); 
-
-
-  quadl(1, 2, 3, 0, cubePoints9); 
-  quadl(2, 6, 7, 3, cubePoints9); 
-  quadl(3, 7, 4, 0, cubePoints9); 
-  quadl(4, 5, 1, 0, cubePoints9); 
-  quadl(5, 4, 7, 6, cubePoints9); 
-  quadl(6, 2, 1, 5, cubePoints9);
-
-  quadl(1, 2, 3, 0, cubePoints10); 
-  quadl(2, 6, 7, 3, cubePoints10); 
-  quadl(3, 7, 4, 0, cubePoints10); 
-  quadl(4, 5, 1, 0, cubePoints10); 
-  quadl(5, 4, 7, 6, cubePoints10); 
-  quadl(6, 2, 1, 5, cubePoints10);
-
-  quadl(1, 2, 3, 0, cubePoints11); 
-  quadl(2, 6, 7, 3, cubePoints11); 
-  quadl(3, 7, 4, 0, cubePoints11); 
-  quadl(4, 5, 1, 0, cubePoints11); 
-  quadl(5, 4, 7, 6, cubePoints11); 
-  quadl(6, 2, 1, 5, cubePoints11);
-
-  quadl(1, 2, 3, 0, cubePoints12); 
-  quadl(2, 6, 7, 3, cubePoints12); 
-  quadl(3, 7, 4, 0, cubePoints12); 
-  quadl(4, 5, 1, 0, cubePoints12); 
-  quadl(5, 4, 7, 6, cubePoints12); 
-  quadl(6, 2, 1, 5, cubePoints12);
-
-  quadl(1, 2, 3, 0, cubePoints13); 
-  quadl(2, 6, 7, 3, cubePoints13); 
-  quadl(3, 7, 4, 0, cubePoints13); 
-  quadl(4, 5, 1, 0, cubePoints13); 
-  quadl(5, 4, 7, 6, cubePoints13); 
-  quadl(6, 2, 1, 5, cubePoints13);
-
-  quadl(1, 2, 3, 0, cubePoints14); 
-  quadl(2, 6, 7, 3, cubePoints14); 
-  quadl(3, 7, 4, 0, cubePoints14); 
-  quadl(4, 5, 1, 0, cubePoints14); 
-  quadl(5, 4, 7, 6, cubePoints14); 
-  quadl(6, 2, 1, 5, cubePoints14);
-
-  quad50(1, 2, 3, 0, cubeWhite); 
-  quad50(2, 6, 7, 3, cubeWhite); 
-  quad50(3, 7, 4, 0, cubeWhite); 
-  quad50(4, 5, 1, 0, cubeWhite); 
- quad50(5, 4, 7, 6, cubeWhite); 
- quad50(6, 2, 1, 5, cubeWhite); 
-
- let min = Math.min(gl.canvas.width, gl.canvas.height);
-  gl.viewport(gl.canvas.width - min, gl.canvas.height - min, min, min);
-
-
-  var vertexBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-  gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
   var vertexShaderSource = document.getElementById("vertexShaderSource").text;
   var fragmentShaderSource = document.getElementById("fragmentShaderSource").text;
@@ -460,45 +401,16 @@ var cubePoints14 = [
 
   // Ajarkan attribute a_Position di GPU
   //  tentang pengambilan data verteks dari ARRAY_BUFFER
-  gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   var aPositionLoc = gl.getAttribLocation(shaderProgram, "a_Position");
   var aColorLoc = gl.getAttribLocation(shaderProgram, "a_Color");
   var aNormalLoc = gl.getAttribLocation(shaderProgram, "a_Normal");
-  gl.vertexAttribPointer(
-    aPositionLoc, 
-    3, 
-    gl.FLOAT, 
-    false, 
-    9 * Float32Array.BYTES_PER_ELEMENT, 
-    0);
-  gl.vertexAttribPointer(
-    aColorLoc, 
-    3, 
-    gl.FLOAT, 
-    false, 
-    9 * Float32Array.BYTES_PER_ELEMENT, 
-    3 * Float32Array.BYTES_PER_ELEMENT);
-  gl.vertexAttribPointer(
-    aNormalLoc, 
-    3, 
-    gl.FLOAT, 
-    false, 
-    9 * Float32Array.BYTES_PER_ELEMENT, 
-    6 * Float32Array.BYTES_PER_ELEMENT);
-  gl.enableVertexAttribArray(aPositionLoc);
-  gl.enableVertexAttribArray(aColorLoc);
-  gl.enableVertexAttribArray(aNormalLoc);
-  gl.bindBuffer(gl.ARRAY_BUFFER, null);
-
   
 
-  gl.viewport(100, 0, canvas.height, canvas.height);
-  
   gl.enable(gl.DEPTH_TEST);
 
   var primitive = gl.TRIANGLES;
   var offset = 0;
-  var nVertex = 36*15;
+  // var nVertex = 36 * 7;
 
   var u_Model = gl.getUniformLocation(shaderProgram, 'u_Model');
   var u_View = gl.getUniformLocation(shaderProgram, 'u_View');
@@ -514,62 +426,97 @@ var cubePoints14 = [
   var uLightColor = gl.getUniformLocation(shaderProgram, 'u_LightColor');
   gl.uniform3fv(uLightColor, [1, 1, 1]);
   var uLightPosition = gl.getUniformLocation(shaderProgram, 'u_LightPosition');
-  //shininess
-  //var shininessVal = gl.getUniformLocation(shaderProgram, 'shininessVal');
-
-
+  gl.uniform3fv(uLightPosition, [0, 0, 0]);
+  var uSpecularColor = gl.getUniformLocation(shaderProgram, 'u_Specularcolor');
+  var shininessVal = gl.getUniformLocation(shaderProgram, 'shininessVal');
 
   let lightPositionY = 0;
   var linearspeed = 0.1;
   var angularspeed = glMatrix.glMatrix.toRadian(1);
   function onKeyDown(event) {
-  
     if (event.keyCode == 65) {
       glMatrix.mat4.rotate(view, view, angularspeed, [0.0, -linearspeed, 0.0]);
-      } 
-      else if (event.keyCode == 68) {
+    } 
+    else if (event.keyCode == 68) {
       glMatrix.mat4.rotate(view, view, angularspeed, [0.0, linearspeed, 0.0]);
-      } 
-      if (event.keyCode == 87) {
-  
-        for(let i = 0 ; i < 36 * 9; i++){
-          if(i%9 == 0){
-            vertices[4537 + i] += 0.01;
-          }
-         
+    } 
+    if (event.keyCode == 87) {
+
+      for (let i = 0; i < 36 * 9; i++) {
+        if (i % 9 == 0) {
+          verticesCenter[1 + i] += 0.01;
         }
-        
-        lightPositionY += 0.01;
-      } 
-      if (event.keyCode == 83) {
-        for(let i = 0 ; i < 36 * 9; i++){
-          if(i%9 == 0){
-            vertices[4537 + i] -= 0.01;
-          }
-          console.log("vertices lenght : " + vertices.length);
+      }
+
+      lightPositionY += 0.01;
+    } 
+    if (event.keyCode == 83) {
+      for (let i = 0; i < 36 * 9; i++) {
+        if (i % 9 == 0) {
+          verticesCenter[1 + i] -= 0.01;
         }
-        lightPositionY -= 0.01;
-      } 
+      }
+      lightPositionY -= 0.01;
+    }
   }
   document.addEventListener('keydown', onKeyDown);
 
+  const drawVertices = (objectVertices, shininess, clear) => {
+    var vertexBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(objectVertices), gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
-  function render() {
-    
-   
-    gl.uniformMatrix4fv(u_Model, false, model);
+  gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+
+  gl.vertexAttribPointer(
+    aPositionLoc,
+    3,
+    gl.FLOAT,
+    false,
+    9 * Float32Array.BYTES_PER_ELEMENT,
+    0);
+  gl.vertexAttribPointer(
+    aColorLoc,
+    3,
+    gl.FLOAT,
+    false,
+    9 * Float32Array.BYTES_PER_ELEMENT,
+    3 * Float32Array.BYTES_PER_ELEMENT);
+  gl.vertexAttribPointer(
+    aNormalLoc,
+    3,
+    gl.FLOAT,
+    false,
+    9 * Float32Array.BYTES_PER_ELEMENT,
+    6 * Float32Array.BYTES_PER_ELEMENT);
+  gl.enableVertexAttribArray(aPositionLoc);
+  gl.enableVertexAttribArray(aColorLoc);
+  gl.enableVertexAttribArray(aNormalLoc);
+  gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+  gl.uniformMatrix4fv(u_Model, false, model);
     gl.uniformMatrix4fv(u_View, false, view);
     gl.uniform3fv(uLightPosition, [0, lightPositionY, 0]);
-    var normalModel = glMatrix.mat3.create();
-    glMatrix.mat3.normalFromMat4(normalModel, model);
-    gl.uniformMatrix3fv(uNormalModel, false, normalModel);
-    // gl.clearColor(0.83, 0.5, 0.6, 1.0);
+    gl.uniform3fv(uSpecularColor, [1.0, 1.0, 1.0]);
 
-    gl.clearColor(0, 0.15, 0, 1);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-    gl.drawArrays(primitive, offset, nVertex);
+    var normalModel = glMatrix.mat3.create();
+
+    gl.uniform1f(shininessVal, shininess);
+        glMatrix.mat3.normalFromMat4(normalModel, model);
+        gl.uniformMatrix3fv(uNormalModel, false, normalModel);
+
+        if (clear) {
+          gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      }
+      gl.drawArrays(primitive, offset, objectVertices.length / 9);
+  }
+
+  function render() {
+    gl.clearColor(0, 0.15, 0, 1)
+    drawVertices(verticesLeft, 100, true);
+    drawVertices(verticesRight, 1, false);
+    drawVertices(verticesCenter, 300, false);
     requestAnimationFrame(render);
     resizer();
   }
@@ -579,8 +526,9 @@ var cubePoints14 = [
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     minVal = Math.min(gl.canvas.width, gl.canvas.height);
-    gl.viewport(gl.canvas.width/2 -minVal/2, gl.canvas.height/2 -minVal/2,minVal,minVal);
+    gl.viewport(gl.canvas.width / 2 - minVal / 2, gl.canvas.height / 2 - minVal / 2, minVal, minVal);
   }
 
   window.addEventListener('resize', resizer);
+  
 }
