@@ -523,25 +523,25 @@ var cubeNormals2 = [
       lightPositionX += 0.01;
     }
     
-    // Hackathon #4
-    // if (event.keyCode == 32) { 
-    //   for (let i = 0; i < 36 * 9; i++) {
-    //     if (i % 9 == 0) {
-    //       if(verticesCenter[3 + i] == 1){
-    //         verticesCenter[3 + i] = 0;
-    //         verticesCenter[4 + i] = 0;
-    //         verticesCenter[5 + i] = 0;
-    //         LightColor = 0;
-    //       }
-    //       else if(verticesCenter[3 + i] == 0){
-    //         verticesCenter[3 + i] = 1;
-    //         verticesCenter[4 + i] = 1;
-    //         verticesCenter[5 + i] = 1;
-    //         LightColor = 1;
-    //       }
-    //     }
-    //   }
-    // }
+    //Hackathon #4
+    if (event.keyCode == 32) { 
+      for (let i = 0; i < 36 * 9; i++) {
+        if (i % 9 == 0) {
+          if(verticesCenter[3 + i] == 1){
+            verticesCenter[3 + i] = 0;
+            verticesCenter[4 + i] = 0;
+            verticesCenter[5 + i] = 0;
+            LightColor = 0;
+          }
+          else if(verticesCenter[3 + i] == 0){
+            verticesCenter[3 + i] = 1;
+            verticesCenter[4 + i] = 1;
+            verticesCenter[5 + i] = 1;
+            LightColor = 1;
+          }
+        }
+      }
+    }
 
     
   }
