@@ -430,8 +430,63 @@ var cubePoints14 = [
   var uSpecularColor = gl.getUniformLocation(shaderProgram, 'u_Specularcolor');
   var shininessVal = gl.getUniformLocation(shaderProgram, 'shininessVal');
 
-  let lightPositionY = 0;
+ 
+  let lightPositionX = 0;
+  let lightPositionZ = 0;
+  var linearspeed = 0.1;
+  var angularspeed = glMatrix.glMatrix.toRadian(1);
 
+  function onKeyDown(event) {
+    console.log(event.keyCode);
+
+    // Untuk testing rotation
+
+    // if (event.keyCode == 65) {
+    //   glMatrix.mat4.rotate(view, view, angularspeed, [0.0, -linearspeed, 0.0]);
+    // } 
+    // else if (event.keyCode == 68) {
+    //   glMatrix.mat4.rotate(view, view, angularspeed, [0.0, linearspeed, 0.0]);
+    // } 
+
+    if (event.keyCode == 38) {
+
+      for (let i = 0; i < 36 * 9; i++) {
+        if (i % 9 == 0) {
+          verticesCenter[2 + i] += 0.01;
+        }
+      }
+
+      lightPositionZ += 0.01;
+    } 
+    if (event.keyCode == 40) {
+      for (let i = 0; i < 36 * 9; i++) {
+        if (i % 9 == 0) {
+          verticesCenter[2 + i] -= 0.01;
+        }
+      }
+      lightPositionZ -= 0.01;
+    }
+
+    if (event.keyCode == 39) {
+
+      for (let i = 0; i < 36 * 9; i++) {
+        if (i % 9 == 0) {
+          verticesCenter[i] += 0.01;
+        }
+      }
+
+      lightPositionX += 0.01;
+    } 
+    if (event.keyCode == 37) {
+      for (let i = 0; i < 36 * 9; i++) {
+        if (i % 9 == 0) {
+          verticesCenter[i] -= 0.01;
+        }
+      }
+      lightPositionX -= 0.01;
+    }
+  }
+  document.addEventListener('keydown', onKeyDown);
 
 
   const drawVertices = (objectVertices, shininess, clear) => {
@@ -468,10 +523,12 @@ var cubePoints14 = [
   gl.enableVertexAttribArray(aNormalLoc);
   gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
-  gl.uniformMatrix4fv(u_Model, false, model);
+    gl.uniformMatrix4fv(u_Model, false, model);
     gl.uniformMatrix4fv(u_View, false, view);
-    gl.uniform3fv(uLightPosition, [0, lightPositionY, 0]);
-    gl.uniform3fv(uSpecularColor, [1.0, 1.0, 1.0]);
+
+    // adjust lighting
+    gl.uniform3fv(uLightPosition, [lightPositionX, 0, lightPositionZ]);
+    // gl.uniform3fv(uSpecularColor, [1.0, 1.0, 1.0]);
 
     var normalModel = glMatrix.mat3.create();
 
