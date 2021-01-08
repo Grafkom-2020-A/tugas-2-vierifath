@@ -171,6 +171,33 @@ var cubePoints14 = [
 ];
 
 
+// var hackathon3 = [
+ 
+//     [-0.5, -0.32, 5],   // N, 6 
+//     [-0.5, -0.32, 5],   // N, 6 
+//     [0.5, -0.32, 5],   // N, 6  
+//     [0.5, -0.32, 5],   // N, 6 
+//     [-0.5, -0.32, -5],   // N, 6 
+//     [-0.5, -0.32, -5],   // N, 6
+//     [0.5, -0.32, -5],   // N, 6
+//     [0.5, -0.32, -5],   // N, 6
+    
+      
+//   ];
+
+var cubeNormals2 = [
+  [-0.817039961064,0.3697760050126,0.1],  
+  [-0.5826501888849,0.3697760050126,0.1],         
+  [-0.5826501888849,0.2751340866928,0.1],   
+  [-0.817039961064,0.2751340866928,0.1],  
+  [-0.817039961064,0.3697760050126,-0.1], 
+  [-0.5826501888849,0.3697760050126,-0.1],         
+  [-0.5826501888849,0.2751340866928,-0.1],
+  [-0.817039961064,0.2751340866928,-0.1]           
+  ];
+
+
+
   var cubeColors = [
     [],
     [0.9, 0.9, 0],    
@@ -241,7 +268,9 @@ var cubePoints14 = [
     [0.0, 1.0, 0.0],    
     []
   ];
+  
 
+  
 
   function quad(cube , cubeColor, cubeNormal, a, b, c, d, vertices) {
     var indices = [a, b, c, c, d, a];
@@ -369,6 +398,13 @@ var cubePoints14 = [
   quad(cubeWhite, cubeWhiteColors, cubeNormals2, 5, 4, 7, 6, verticesCenter); 
   quad(cubeWhite, cubeWhiteColors, cubeNormals2, 6, 2, 1, 5, verticesCenter);
 
+  // quad(hackathon3, cubeColors, cubeNormals2, 1, 2, 3, 0, verticesCenter); 
+  // quad(hackathon3, cubeColors, cubeNormals2, 2, 6, 7, 3, verticesCenter); 
+  // quad(hackathon3, cubeColors, cubeNormals2, 3, 7, 4, 0, verticesCenter);
+  // quad(hackathon3, cubeColors, cubeNormals2, 4, 5, 1, 0, verticesCenter); 
+  // quad(hackathon3, cubeColors, cubeNormals2, 5, 4, 7, 6, verticesCenter); 
+  // quad(hackathon3, cubeColors, cubeNormals2, 6, 2, 1, 5, verticesCenter);
+
 
   
 
@@ -442,12 +478,12 @@ var cubePoints14 = [
 
   //   // Untuk testing rotation
 
-  //   if (event.keyCode == 65) {
-  //     glMatrix.mat4.rotate(view, view, angularspeed, [0.0, -linearspeed, 0.0]);
-  //   } 
-  //   else if (event.keyCode == 68) {
-  //     glMatrix.mat4.rotate(view, view, angularspeed, [0.0, linearspeed, 0.0]);
-  //   } 
+    if (event.keyCode == 65) {
+      glMatrix.mat4.rotate(view, view, angularspeed, [0.0, -linearspeed, 0.0]);
+    } 
+    else if (event.keyCode == 68) {
+      glMatrix.mat4.rotate(view, view, angularspeed, [0.0, linearspeed, 0.0]);
+    } 
 
     if (event.keyCode == 38) {
 
@@ -511,6 +547,75 @@ var cubePoints14 = [
   }
   document.addEventListener('keydown', onKeyDown);
 
+  var lastPointOnTrackBall, currentPointOnTrackBall;
+  var lastQuat = glMatrix.quat.create();
+  function computeCurrentQuat() {
+    // Secara berkala hitung quaternion rotasi setiap ada perubahan posisi titik pointer mouse
+    var axisFromCrossProduct = glMatrix.vec3.cross(glMatrix.vec3.create(), lastPointOnTrackBall, currentPointOnTrackBall);
+    var angleFromDotProduct = Math.acos(glMatrix.vec3.dot(lastPointOnTrackBall, currentPointOnTrackBall));
+    var rotationQuat = glMatrix.quat.setAxisAngle(glMatrix.quat.create(), axisFromCrossProduct, angleFromDotProduct);
+    glMatrix.quat.normalize(rotationQuat, rotationQuat);
+    return glMatrix.quat.multiply(glMatrix.quat.create(), rotationQuat, lastQuat);
+  }
+  // Memproyeksikan pointer mouse agar jatuh ke permukaan ke virtual trackball
+  function getProjectionPointOnSurface(point) {
+    var radius = canvas.width / 3;  // Jari-jari virtual trackball kita tentukan sebesar 1/3 lebar kanvas
+    var center = glMatrix.vec3.fromValues(canvas.width / 2, canvas.height / 2, 0);  // Titik tengah virtual trackball
+    var pointVector = glMatrix.vec3.subtract(glMatrix.vec3.create(), point, center);
+    pointVector[1] = pointVector[1] * (-1); // Flip nilai y, karena koordinat piksel makin ke bawah makin besar
+    var radius2 = radius * radius;
+    var length2 = pointVector[0] * pointVector[0] + pointVector[1] * pointVector[1];
+    if (length2 <= radius2) pointVector[2] = Math.sqrt(radius2 - length2); // Dapatkan nilai z melalui rumus Pytagoras
+    else {  // Atur nilai z sebagai 0, lalu x dan y sebagai paduan Pytagoras yang membentuk sisi miring sepanjang radius
+      pointVector[0] *= radius / Math.sqrt(length2);
+      pointVector[1] *= radius / Math.sqrt(length2);
+      pointVector[2] = 0;
+    }
+    return glMatrix.vec3.normalize(glMatrix.vec3.create(), pointVector);
+  }
+
+  // Memutar kubus secara virtual trackball (teknik quaternion) menggunakan mouse
+  var rotation = glMatrix.mat4.create();
+  var dragging;
+  function onMouseDown(event) {
+    var x = event.clientX;
+    var y = event.clientY;
+    var rect = event.target.getBoundingClientRect();
+    // Saat mouse diklik-kiri di area aktif browser,
+    //  maka flag dragging akan diaktifkan
+    if (
+      rect.left <= x &&
+      rect.right > x &&
+      rect.top <= y &&
+      rect.bottom > y
+    ) {
+      dragging = true;
+    }
+    // Untuk keperluan perhitungan di virtual trackball
+    lastPointOnTrackBall = getProjectionPointOnSurface(glMatrix.vec3.fromValues(x, y, 0));
+    currentPointOnTrackBall = lastPointOnTrackBall;
+  }
+  function onMouseUp(event) {
+    // Ketika klik-kiri mouse dilipas
+    dragging = false;
+    if (currentPointOnTrackBall != lastPointOnTrackBall) {
+      lastQuat = computeCurrentQuat();
+    }
+  }
+  function onMouseMove(event) {
+    if (dragging) {
+      var x = event.clientX;
+      var y = event.clientY;
+      // Perhitungan putaran quaternion
+      currentPointOnTrackBall = getProjectionPointOnSurface(glMatrix.vec3.fromValues(x, y, 0));
+      glMatrix.mat4.fromQuat(rotation, computeCurrentQuat());
+    }
+  }
+  document.addEventListener('mousedown', onMouseDown);
+  document.addEventListener('mouseup', onMouseUp);
+  document.addEventListener('mousemove', onMouseMove);
+
+
 
   const drawVertices = (objectVertices, shininess, clear) => {
     var vertexBuffer = gl.createBuffer();
@@ -565,9 +670,16 @@ var cubePoints14 = [
       }
       gl.drawArrays(primitive, offset, objectVertices.length / 9);
   }
-
+  
   function render() {
+    model = glMatrix.mat4.create();
+    glMatrix.mat4.multiply(model, model, rotation);
+    gl.uniformMatrix4fv(u_Model, false, model);
+    var normal = glMatrix.mat3.create();
+    glMatrix.mat3.normalFromMat4(normal, model);
+    gl.uniformMatrix3fv(uNormalModel, false, normal);
     gl.clearColor(0, 0.15, 0, 1)
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     drawVertices(verticesLeft, 100, true);
     drawVertices(verticesRight, 1, false);
     drawVertices(verticesCenter, 300, false);
