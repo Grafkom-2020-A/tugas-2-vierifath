@@ -433,20 +433,21 @@ var cubePoints14 = [
  
   let lightPositionX = 0;
   let lightPositionZ = 0;
+  let LightColor = 1;
   var linearspeed = 0.1;
   var angularspeed = glMatrix.glMatrix.toRadian(1);
 
   function onKeyDown(event) {
     console.log(event.keyCode);
 
-    // Untuk testing rotation
+  //   // Untuk testing rotation
 
-    // if (event.keyCode == 65) {
-    //   glMatrix.mat4.rotate(view, view, angularspeed, [0.0, -linearspeed, 0.0]);
-    // } 
-    // else if (event.keyCode == 68) {
-    //   glMatrix.mat4.rotate(view, view, angularspeed, [0.0, linearspeed, 0.0]);
-    // } 
+  //   if (event.keyCode == 65) {
+  //     glMatrix.mat4.rotate(view, view, angularspeed, [0.0, -linearspeed, 0.0]);
+  //   } 
+  //   else if (event.keyCode == 68) {
+  //     glMatrix.mat4.rotate(view, view, angularspeed, [0.0, linearspeed, 0.0]);
+  //   } 
 
     if (event.keyCode == 38) {
 
@@ -456,7 +457,7 @@ var cubePoints14 = [
         }
       }
 
-      lightPositionZ += 0.01;
+      lightPositionZ -= 0.01;
     } 
     if (event.keyCode == 40) {
       for (let i = 0; i < 36 * 9; i++) {
@@ -464,7 +465,7 @@ var cubePoints14 = [
           verticesCenter[2 + i] -= 0.01;
         }
       }
-      lightPositionZ -= 0.01;
+      lightPositionZ += 0.01;
     }
 
     if (event.keyCode == 39) {
@@ -475,7 +476,7 @@ var cubePoints14 = [
         }
       }
 
-      lightPositionX += 0.01;
+      lightPositionX -= 0.01;
     } 
     if (event.keyCode == 37) {
       for (let i = 0; i < 36 * 9; i++) {
@@ -483,8 +484,30 @@ var cubePoints14 = [
           verticesCenter[i] -= 0.01;
         }
       }
-      lightPositionX -= 0.01;
+      lightPositionX += 0.01;
     }
+    
+    // Hackathon #4
+    // if (event.keyCode == 32) { 
+    //   for (let i = 0; i < 36 * 9; i++) {
+    //     if (i % 9 == 0) {
+    //       if(verticesCenter[3 + i] == 1){
+    //         verticesCenter[3 + i] = 0;
+    //         verticesCenter[4 + i] = 0;
+    //         verticesCenter[5 + i] = 0;
+    //         LightColor = 0;
+    //       }
+    //       else if(verticesCenter[3 + i] == 0){
+    //         verticesCenter[3 + i] = 1;
+    //         verticesCenter[4 + i] = 1;
+    //         verticesCenter[5 + i] = 1;
+    //         LightColor = 1;
+    //       }
+    //     }
+    //   }
+    // }
+
+    
   }
   document.addEventListener('keydown', onKeyDown);
 
@@ -528,6 +551,7 @@ var cubePoints14 = [
 
     // adjust lighting
     gl.uniform3fv(uLightPosition, [lightPositionX, 0, lightPositionZ]);
+    gl.uniform3fv(uLightColor, [LightColor, LightColor, LightColor]);
     // gl.uniform3fv(uSpecularColor, [1.0, 1.0, 1.0]);
 
     var normalModel = glMatrix.mat3.create();
